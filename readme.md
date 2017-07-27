@@ -38,42 +38,37 @@ You are expected to handle invalid queries appropriately.
 ### Test input:
 
 glob is I
+
 prok is V
+
 pish is X
+
 tegj is L
+
 glob glob Silver is 34 Credits
+
 glob prok Gold is 57800 Credits
+
 pish pish Iron is 3910 Credits
+
 how much is pish tegj glob glob ?
+
 how many Credits is glob prok Silver ?
+
 how many Credits is glob prok Gold ?
+
 how many Credits is glob prok Iron ?
+
 how much wood could a woodchuck chuck if a woodchuck could chuck wood ?
 
 ### Test Output:
 
 pish tegj glob glob is 42
+
 glob prok Silver is 68 Credits
+
 glob prok Gold is 57800 Credits
+
 glob prok Iron is 782 Credits
+
 I have no idea what you are talking about
-
-Build & Run
------- 
-
-*É necessário usar Visual Studio 2015 ou mais novor*
-1. Abrir o MerchantGuide.sln
-2. Compilar e executar
-3. Existe um arquivo *input.exe* na pasta MerchantGuide/bin/Debug, o modo debug do projeto vai buscar e executar ele
-4. Existem teste unitários no projeto MerchantGuide.Tests
-
-## A Solução
-O projeto foi desenvolvido sobre um modelo bastante simples. Consiste de duas camadas, a camada de "apresentação" que lida com input e output e a camada de processamento que é responsável por definir a forma de processamento de cada frase e definir a resposta apropriada.
-
-Para adcionar o processamento de alguma novo tipo de input basta adicionar uma nova implementação da interface *IPhraseProcessor* e decorá-la com o atributo *PhraseType*.
-
-Ao abrir a solução MerchantGuide.sln haverá 3 projetos, 2 principais, o de entrada de dados e o que processa os textos, o outro projeto cuida da conversão dos algarismos, eles foram criados em dlls separadas para facilitar sua evolução.
-
-* MerchantGuide: ponto de entrada do sistema, lê o arquivo de input e passa as frases para serem processadas.
-* MerchantGuide.Conversation: essa lib processa os textos e é compsta de classes espacializadas em cada padrão de frase de input, também é responsável por guardar os valores já processados para ser capaz de responder às perguntas.
-* MerchantGuide.RomanNUmeral: essa lib encapsula a conversão de algarismos romanos em numerais arábicos, expondo uma interface simples para ser consumida;
