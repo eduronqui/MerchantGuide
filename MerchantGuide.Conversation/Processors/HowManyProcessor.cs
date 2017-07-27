@@ -24,21 +24,23 @@ namespace MerchantGuide.Conversation.Processors
             this.valuesStorage = valuesStorage;
         }
 
-        public string Process(MatchCollection matchCollection)
+        public string Process(GroupCollection groups)
         {
-            return ProcessMatch(matchCollection);
+            return ProcessMatch(groups);
         }
 
         public string Process(string phrase)
         {
             var match = Regex.Matches(phrase, RegexPatterns.HOW_MANY, RegexOptions.IgnoreCase);
-
-            return ProcessMatch(match);
+            return ProcessMatch(match[0].Groups);
         }
 
-        private string ProcessMatch(MatchCollection match)
+        private string ProcessMatch(GroupCollection groups)
         {
-            var words = match[0].Groups[1].Value.Trim().Split(' ');
+            if (groups.Count < 2)
+                throw new ArgumentException("groups");
+
+            var words = groups[1].Value.Trim().Split(' ');
 
             var romanQty = String.Join("", words.Take(words.Length - 1).Select(n => valuesStorage.GetLiteral(n)));
 
@@ -48,7 +50,7 @@ namespace MerchantGuide.Conversation.Processors
 
             var value = objectValue * qty;
 
-            return $"{string.Join(" ", words)} is {value} Credits";
+            return $"{groups[1].Value.Trim()} is {value} Credits";
         }
     }
 }

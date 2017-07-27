@@ -28,7 +28,7 @@ namespace MerchantGuide.Conversation
                 var attr = processor.GetType().GetCustomAttribute<PhraseTypeAttribute>();
                 var match = Regex.Matches(phrase, attr.Pattern, RegexOptions.IgnoreCase);
 
-                return processor.Process(match);
+                return processor.Process(match[0].Groups);
             }
             catch (UnknownWordException ex)
             {

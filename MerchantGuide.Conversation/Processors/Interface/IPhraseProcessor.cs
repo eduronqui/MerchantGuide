@@ -11,6 +11,6 @@ namespace MerchantGuide.Conversation.Processors
     {
         string Process(string phrase);
 
-        string Process(MatchCollection matchCollection);
+        string Process(GroupCollection groups);
     }
 }

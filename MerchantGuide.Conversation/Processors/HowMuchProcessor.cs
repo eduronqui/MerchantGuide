@@ -24,28 +24,30 @@ namespace MerchantGuide.Conversation.Processors
             this.valuesStorage = valuesStorage;
         }
 
-        public string Process(MatchCollection matchCollection)
+        public string Process(GroupCollection groups)
         {
-            return ProcessMatch(matchCollection);
+            return ProcessMatch(groups);
         }
 
         public string Process(string phrase)
         {
             var match = Regex.Matches(phrase, RegexPatterns.HOW_MUCH, RegexOptions.IgnoreCase);
-
-            return ProcessMatch(match);
+            return ProcessMatch(match[0].Groups);
         }
 
-        private string ProcessMatch(MatchCollection match)
+        private string ProcessMatch(GroupCollection groups)
         {
-            var words = match[0].Groups[1].Value.Trim().Split(' ');
+            if (groups.Count < 2)
+                throw new ArgumentException("groups");
+
+            var words = groups[1].Value.Trim().Split(' ');
 
             var romanValue = String.Join("",
                             words.Select(p => valuesStorage.GetLiteral(p)));
 
             var value = RomanNumeral.Converter.ConvertFromRomanNumeral(romanValue);
 
-            return $"{String.Join(" ", words)} is {value}";
+            return $"{groups[1].Value.Trim()} is {value}";
         }
     }
 }

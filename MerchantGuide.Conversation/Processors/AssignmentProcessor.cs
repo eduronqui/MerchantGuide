@@ -25,22 +25,24 @@ namespace MerchantGuide.Conversation.Processors
             this.valuesStorage = valuesStorage;
         }
 
-        public string Process(MatchCollection matchCollection)
+        public string Process(GroupCollection groups)
         {
-            return ProcessMatch(matchCollection);
+            return ProcessMatch(groups);
         }
 
         public string Process(string phrase)
         {
             var match = Regex.Matches(phrase, RegexPatterns.ASSIGNMENT, RegexOptions.IgnoreCase);
-
-            return ProcessMatch(match);
+            return ProcessMatch(match[0].Groups);
         }
 
-        private string ProcessMatch(MatchCollection match)
+        private string ProcessMatch(GroupCollection groups)
         {
-            var name = match[0].Groups[1].Value;
-            var romanValue = match[0].Groups[2].Value;
+            if (groups.Count < 3)
+                throw new ArgumentException("groups");
+
+            var name = groups[1].Value;
+            var romanValue = groups[2].Value;
 
             if (!RomanNumeral.Validators.RomanValidator.IsValid(romanValue))
                 throw new InvalidRomanNumeralException(romanValue);

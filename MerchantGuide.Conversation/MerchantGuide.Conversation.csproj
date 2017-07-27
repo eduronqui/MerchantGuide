@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Data\IValuesStorage.cs" />
     <Compile Include="Data\ValuesStorage.cs" />
+    <Compile Include="Exceptions\InvalidCreditValueException.cs" />
     <Compile Include="Exceptions\UnknownWordException.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="Attributes\PhraseTypeAttribute.cs" />
